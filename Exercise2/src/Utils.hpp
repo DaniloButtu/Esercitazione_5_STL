@@ -1,45 +1,30 @@
 #pragma once
+
 #include <iostream>
-#include <string>
-#include <vector>
-#include <map>
+#include "PolygonalMesh.hpp"
 
+using namespace std;
 
+namespace PolygonalLibrary{
 
-/*Create a struct to modelize points, edges and polygons*/
-struct cell0D{
-    int id;
-    int marker;
-    double x, y;
-};
+/*Function that import a polygonal mesh and test if the mesh is correct(well imported)
+mesh: a Polygonal_Mesh struct
+return the result of import, true if is success, false otherwise */
+bool import_mesh(Polygonal_Mesh& mesh);
 
-struct cell1D{
-    int id;
-    int marker;
-    int origin;
-    int end;
-};
+/*Import the Cell0D properties from Cell0Ds.csv file
+mesh: a Polygonal_Mesh struct
+return the result of import, true if is success, false otherwise */
+bool import_cell0Ds(Polygonal_Mesh& mesh);
 
-struct cell2D{
-    int id;
-    int marker;
-    std::vector<int> vertices; //it reference to cellOD id
-    std::vector<int> edges; //it reference to cell1D id
-};
+/*Import the Cell1D properties from Cell1Ds.csv file
+mesh: a Polygonal_Mesh struct
+return the result of import, true if is success, false otherwise */
+bool import_cell1Ds(Polygonal_Mesh& mesh);
 
+/*Import the Cell2D properties from Cell2Ds.csv file
+mesh: a Polygonal_Mesh struct
+return the result of import, true if is success, false otherwise */
+bool import_cell2Ds(Polygonal_Mesh& mesh);
 
-
-/*Function that read the data of cell0D and storage them into a map
-file_name: file that contains the data
-cell0D_map: map in which store the OD data */
-bool read_cell0Ds(const std::string& file_name, std::map<int, cell0D>& cell0D_map);
-
-/*Function that read the data of cell1D and storage them into a map
-file_name: file that contains the data
-cell0D_map: map in which store the 1D data */
-bool read_cell1Ds(const std::string& file_name, std::map<int, cell1D>& cell1D_map);
-
-/*Function that read the data of cell1D and storage them into a map
-file_name: file that contains the data
-cell0D_map: map in which store the 2D data */
-bool read_cell2Ds(const std::string& file_name, std::map<int, cell2D>& cell2D_map);
+}
