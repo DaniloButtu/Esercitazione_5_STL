@@ -18,7 +18,7 @@ int main()
         return 1;
     }
 
-    /*TEST to verify in all marker are well stored
+    /*TEST1 to verify in all marker are well stored
      N.B. marker=0 are not stored becasuse they identify a internal cell*/
      map<unsigned int, list<unsigned int>>& m_0Ds_markers = mesh.cell0Ds_markers;
      map<unsigned int, list<unsigned int>>& m_1Ds_markers = mesh.cell1Ds_markers;
@@ -51,7 +51,7 @@ int main()
      }
 
 
-
+     /*To export the stored mesh, then using paraview i can verify if my stored mesh is equal to the input mesh (TEST4)*/
     Gedim::UCDUtilities utilities;
     utilities.ExportPoints("./Cell0Ds.inp",
                            mesh.cell0Ds_coordinates);

@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <set>
 
 
 namespace PolygonalLibrary{
@@ -121,12 +122,12 @@ bool import_cell1Ds(Polygonal_Mesh& mesh)
             itor -> second.push_back(id);   
         }
 
-        /*TEST to verify if a edge has a zero-length*/
+        /*TEST2 to verify if a edge has a zero-length*/
         int& origin = mesh.cell1Ds_extrema(0, id);
         int& end = mesh.cell1Ds_extrema(1, id);
         if(origin == end)
         {
-            cerr<<"TEST NON PASSED: the edge "<<id<<" has length equal to zero";
+            cerr<<"TEST NOT PASSED: the edge "<<id<<" has length equal to zero";
             return false;
         }
         
@@ -206,9 +207,16 @@ bool import_cell2Ds(Polygonal_Mesh& mesh)
             itor -> second.push_back(id);   
         }
 
-        /*TEST to verify that every polygon has a non zero-area*/
-        //TODO
-         
+        /*TEST4 to verify that every polygon has a non zero-area*/
+        vector<unsigned int>& vec_vert = mesh.cell2Ds_vertices[id];
+        set<unsigned int> set_vertices;
+        for(unsigned int i=0; i < vec_vert.size(); i++) set_vertices.insert(vec_vert[i]);
+        
+        if(set_vertices.size() <= 2)
+        {
+            cerr<<"TEST NOT PASSED: the polygon "<<id<<" has area equal to zero";
+            return false;
+        }
     }
 
     return true;
