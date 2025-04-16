@@ -63,8 +63,12 @@ bool import_cell0Ds(Polygonal_Mesh& mesh)
         mesh.cell0Ds_id.push_back(id);
 
         map<unsigned int, list<unsigned int>>& m = mesh.cell0Ds_markers;
-        auto [itor, bool_val] = m.try_emplace(marker);
-        itor -> second.push_back(id);
+        if(marker != 0)
+        {
+            auto [itor, bool_val] = m.try_emplace(marker);
+            itor -> second.push_back(id);   
+        }
+        
     }
     
     return true;
@@ -111,8 +115,21 @@ bool import_cell1Ds(Polygonal_Mesh& mesh)
         mesh.cell1Ds_id.push_back(id);
 
         map<unsigned int, list<unsigned int>>& m = mesh.cell1Ds_markers;
-        auto [itor, bool_val] = m.try_emplace(marker);
-        itor -> second.push_back(id);
+        if(marker !=0)
+        {
+            auto [itor, bool_val] = m.try_emplace(marker);
+            itor -> second.push_back(id);   
+        }
+
+        /*TEST to verify if a edge has a zero-length*/
+        int& origin = mesh.cell1Ds_extrema(0, id);
+        int& end = mesh.cell1Ds_extrema(1, id);
+        if(origin == end)
+        {
+            cerr<<"TEST NON PASSED: the edge "<<id<<" has length equal to zero";
+            return false;
+        }
+        
     }
 
     return true;
@@ -183,8 +200,15 @@ bool import_cell2Ds(Polygonal_Mesh& mesh)
         mesh.cell2Ds_id.push_back(id);
 
         map<unsigned int, list<unsigned int>>& m = mesh.cell2Ds_markers;
-        auto [itor, bool_val] = m.try_emplace(marker);
-        itor -> second.push_back(id); 
+        if(marker != 0)
+        {
+            auto [itor, bool_val] = m.try_emplace(marker);
+            itor -> second.push_back(id);   
+        }
+
+        /*TEST to verify that every polygon has a non zero-area*/
+        //TODO
+         
     }
 
     return true;
