@@ -207,7 +207,7 @@ bool import_cell2Ds(Polygonal_Mesh& mesh)
             itor -> second.push_back(id);   
         }
 
-        /*TEST4 to verify that every polygon has a non zero-area*/
+        /*TEST3 to verify that every polygon has a non zero-area*/
         vector<unsigned int>& vec_vert = mesh.cell2Ds_vertices[id];
         set<unsigned int> set_vertices;
         for(unsigned int i=0; i < vec_vert.size(); i++) set_vertices.insert(vec_vert[i]);
