@@ -209,20 +209,32 @@ bool import_cell2Ds(Polygonal_Mesh& mesh)
 
         /*TEST3 to verify that every polygon has a non zero-area*/
         vector<unsigned int>& vec_vert = mesh.cell2Ds_vertices[id];
-        set<unsigned int> set_vertices;
-        for(unsigned int i=0; i < vec_vert.size(); i++) set_vertices.insert(vec_vert[i]);
-        
-        if(set_vertices.size() <= 2)
-        {
-            cerr<<"TEST NOT PASSED: the polygon "<<id<<" has area equal to zero";
-            return false;
-        }
-    }
+        const unsigned int n = vec_vert.size();
 
+        double area = 0.0;
+        for(size_t i=0; i<n; i++)
+        {   
+            const unsigned int vi_id = vec_vert[i];
+            const unsigned int vj_id = vec_vert[(i+1)%n]; //To close the polygon and connect the first vertice and the last vertice
+
+            const MatrixXd coord = mesh.cell0Ds_coordinates;
+            const double X_vi = coord(0, vi_id);
+            const double Y_vi = coord(1, vi_id);
+            const double X_vj = coord(0, vj_id);
+            const double Y_vj = coord(1, vj_id);
+
+            area += (X_vi * Y_vj) - (X_vj * Y_vi);
+        }
+        area = abs(area / 2.0);
+
+        if(area < 1e-16) return false;
+
+    }
     return true;
 }
 
 }
+
 
 
 
