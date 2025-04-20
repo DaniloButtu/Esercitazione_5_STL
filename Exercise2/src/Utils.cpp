@@ -215,7 +215,7 @@ bool import_cell2Ds(Polygonal_Mesh& mesh)
         for(size_t i=0; i<n; i++)
         {   
             const unsigned int vi_id = vec_vert[i];
-            const unsigned int vj_id = vec_vert[(i+1)%n]; //To close the polygon and connect the first vertice and the last vertice
+            const unsigned int vj_id = vec_vert[(i+1)%n]; //To close the polygon and connect the first vertice and the last vertice I use j=(i+1)%n
 
             const MatrixXd coord = mesh.cell0Ds_coordinates;
             const double X_vi = coord(0, vi_id);
@@ -227,9 +227,14 @@ bool import_cell2Ds(Polygonal_Mesh& mesh)
         }
         area = abs(area / 2.0);
 
-        if(area < 1e-16) return false;
+        if(area <= 1e-16)
+        {
+            cerr<<"TEST NOT PASSED: the polygon "<<id<<" has area equal to zero";
+            return false;
+        }
 
     }
+
     return true;
 }
 
